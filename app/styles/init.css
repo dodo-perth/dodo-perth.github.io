@@ -1,25 +1,23 @@
 @font-face {
-  font-family: 'Spoqa Han Sans Neo';
-  font-weight: 700;
-  src: local('Spoqa Han Sans Bold'),
-  url('https://cdn.jsdelivr.net/gh/parksb/cdn@v1.0/font/SpoqaHanSansNeo/woff2/SpoqaHanSansNeo-Bold.woff2') format('woff2'),
-  url('https://cdn.jsdelivr.net/gh/parksb/cdn@v1.0/font/SpoqaHanSansNeo/woff/SpoqaHanSansNeo-Bold.woff') format('woff'),
-  url('https://cdn.jsdelivr.net/gh/parksb/cdn@v1.0/font/SpoqaHanSansNeo/ttf/SpoqaHanSansNeo-Bold.ttf') format('truetype');
+  font-family: 'Noto Serif VF';
+  src: url('https://cdn.jsdelivr.net/gh/parksb/cdn@master/font/NotoSerifKR/woff2/NotoSerifKR-VF-Distilled.woff2') format('woff2');
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Spoqa Han Sans Neo';
-  font-weight: 400;
-  src: local('Spoqa Han Sans Regular'),
-  url('https://cdn.jsdelivr.net/gh/parksb/cdn@v1.0/font/SpoqaHanSansNeo/woff2/SpoqaHanSansNeo-Regular.woff2') format('woff2'),
-  url('https://cdn.jsdelivr.net/gh/parksb/cdn@v1.0/font/SpoqaHanSansNeo/woff/SpoqaHanSansNeo-Regular.woff') format('woff'),
-  url('https://cdn.jsdelivr.net/gh/parksb/cdn@v1.0/font/SpoqaHanSansNeo/ttf/SpoqaHanSansNeo-Regular.ttf') format('truetype');
+  font-family: 'Pretendard VF';
+  src: url('https://cdn.jsdelivr.net/gh/parksb/cdn@master/font/Pretendard/woff2/PretendardKR-VF-Distilled-Specials.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'RobotoMono VF';
+  src: url('https://cdn.jsdelivr.net/gh/parksb/cdn@master/font/RobotoMono/woff2/RobotoMono-VF-Distilled.woff2') format('woff2');
   font-display: swap;
 }
 
 * {
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-family: 'Noto Serif VF', serif;
   margin: 0;
   padding: 0;
   word-break: keep-all;
@@ -28,52 +26,53 @@
 }
 
 body {
+  font-size: 16px;
   margin: auto;
   padding: 20px 30px 50px 30px;
 }
 
 a {
-  color: black;
+  color: #000000;
   text-decoration: none;
   cursor: pointer;
 }
 
-#main-container {
-  margin-top: 90px;
-  margin-bottom: 50px;
+a:hover {
+  color: #005ccc;
 }
 
-#top-container {
-  position: fixed;
-  padding-bottom: 5px;
-  z-index: 999;
+.symbol {
+  font-family: 'Pretendard VF', sans-serif;
 }
 
-#top-container h1 {
-  font-size: 24px;
+img.icon {
   display: inline;
-  font-weight: 700;
+  margin-right: 1px;
+  max-width: 0.8rem;
+  max-height: 0.8rem;
 }
 
-#top-container small {
-  display: block;
-  font-size: 13px;
+time {
+  font-family: 'RobotoMono VF', monospace;
+}
+
+#main-container {
+  max-width: 800px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+#top-container span.t1 {
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+#top-container span.t2 {
+  font-size: 1rem;
   font-weight: 400;
 }
 
-#top-container .logo-link span {
-  font-size: 14px;
-  font-weight: 400;
-}
-
-#top-container .logo-link:hover,
-#top-container .logo-link:focus {
-  color: white;
-  text-shadow: 1px 1px 0 black, -1px 1px 0 black, -1px -1px 0 black, 1px -1px 0 black;
-}
-
-#top-container .info-link:hover,
-#top-container .info-link:focus {
-  color: white;
-  background-color: black;
+footer {
+  font-size: 0.8rem;
+  color: #767676;
 }
