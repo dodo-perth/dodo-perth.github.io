@@ -12,3 +12,11 @@ section#index-container a:hover {
 section#index-container p {
   margin-bottom: 1rem;
 }
+
+#main-container p {
+  line-height: 200%;
+  font-family: 'Noto Serif VF',serif;
+  text-rendering: optimizeLegibility;
+  word-break: keep-all;
+  font-feature-settings: normal;
+}
