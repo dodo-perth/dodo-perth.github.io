@@ -20,3 +20,7 @@ section#index-container p {
   word-break: keep-all;
   font-feature-settings: normal;
 }
+
+#main-container a{
+  color:#005ccc;
+}
