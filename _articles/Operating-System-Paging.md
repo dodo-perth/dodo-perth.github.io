@@ -1,0 +1,74 @@
+---
+id: 1
+title: "6. Operating System : Memory Management"
+subtitle: "Paging with Virtual Memory"
+date: "2024.05.24"
+tags: "OS, Paging"
+---
+
+# Virtual Memory
+
+## Limitations of Continuous Memory Allocation
+Continuous memory allocation has problems when a process is larger than the actual memory and can also cause external fragmentation.
+
+## What is Virtual Memory?
+Virtual memory allows a system to execute programs larger than its physical memory by allocating parts of the program into memory.
+
+## Paging
+Paging is a solution to external fragmentation, which occurs when processes of different sizes are allocated into memory continuously. If each process is the same size, external fragmentation can be prevented. Paging divides a process by a specific size and allocates it into memory discontinuously.
+
+### Paging Process Overview
+1. Divide the process's logical address space into pages.
+2. Divide memory's physical address space into frames of the same size as the pages.
+3. Allocate pages into frames.
+
+### Swapping in Paging
+Swapping in paging involves moving a process's page from swap space in secondary storage into physical memory (Swap In/Page In) and vice versa (Swap Out/Page Out). Pages not needed in memory are swapped out, while those needed for execution are swapped in, allowing a process to run even if part of it is in secondary storage.
+
+#### Limitations
+1. The CPU struggles to find which page is stored in which frame.
+2. If processes are allocated discontinuously, the CPU cannot execute them in proper order.
+3. The CPU cannot find the location of the next instruction.
+
+## Page Table
+The page table overcomes these problems by mapping each page number to a frame, storing pages continuously in the logical address space used by the CPU.
+
+| **Page Number** | **Frame Number** |
+|-----------------|------------------|
+| 0               | 3                |
+| 1               | 5                |
+| 2               | 2                |
+
+Each process has its own page table. The CPU only needs to run each page from the page table, checking logical addresses even if actual pages are distributed physically.
+
+### Internal Fragmentation
+If the page size is 10KB and a process size is 108KB, then 2KB of internal fragmentation occurs. This is always smaller than the page size.
+
+### Page Table Base Register (PTBR)
+Each process has its page table, pointed to by the Page Table Base Register in the CPU. If the page table is in memory, memory access time increases because the CPU needs to access both the page table and the page.
+
+### TLB (Translation Lookaside Buffer)
+TLB is a special cache memory containing part of the page table and working with the CPU.
+- **TLB Hit**: The logical address the CPU is trying to access is in the TLB.
+- **TLB Miss**: The CPU needs to access memory twice (to page table, to frame).
+
+### Address Mapping in Paging
+When the CPU wants to access a specific address, it needs information about:
+1. The page/frame it wants to access.
+2. The offset of that page/frame.
+
+Logical addresses are composed of `<Page Number, Offset>`. After passing through the page table, they are replaced with `<Frame Number, Offset>`.
+
+### Page Table Entry (PTE)
+Each column of the page table is a Page Table Entry (PTE). It contains:
+- **Validation Bit**: Indicates if the page is accessible. If the valid bit is 1, the page is accessible. Accessing a page with a validation bit of 0 causes a Page Fault Interrupt.
+  1. The CPU backs up its current state.
+  2. Executes the page fault service routine.
+  3. The service routine brings the page into memory and changes the validation bit to 1.
+  4. After the service finishes, the CPU can access the page.
+- **Protection Bit**: Manages permissions for reading, writing, and execution to protect the page.
+- **Reference Bit**: Set to 1 once the CPU accesses that page.
+- **Dirty Bit**: Set to 1 once the CPU modifies that page. It helps decide whether to write to secondary storage when the page is removed from memory.
+
+# References
+1. This article is based on the [[컴퓨터 공학 기초 강의] 38강. 페이징을 통한 가상 메모리 관리](https://www.youtube.com/watch?v=8ufliWkgqMo&list=PLYH7OjNUOWLUz15j4Q9M6INxK5J3-59GC&index=41).
