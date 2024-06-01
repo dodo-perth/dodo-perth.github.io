@@ -12,3 +12,4 @@ Allocating process into memory continuously.
 Removed processes are not currently using from memory, and move them to secondary storage. And then, load new process into new empty space.
 
 ![image](/images/swap.png)
+![image](/images/2024-06-01-14-54-49.png)
