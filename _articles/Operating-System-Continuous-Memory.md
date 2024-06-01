@@ -68,3 +68,11 @@ graph TB;
 
 # External Fragmentation
 Continuous memory allocation is not an efficient way to utilize memory. It has potential problem to occur external fragmentation.
+
+![image](/images/2024-06-01-15-36-58.png)
+
+## Solution of External Fragmentation
+
+**Memory compaction** is a process used by the operating system to consolidate free memory space by relocating allocated memory blocks, thereby reducing fragmentation. This technique ensures that all free memory is contiguous, making it easier to allocate large blocks of memory to new processes.
+
+**Paging** is the most effective and popular way to solve external fragmentation. To implement this, virtual memory is required.
