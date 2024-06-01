@@ -1,2 +1,14 @@
 @import 'init.css';
+@import 'list.css';
 
+section#index-container a {
+  color: #005ccc;
+}
+
+section#index-container a:hover {
+  text-decoration: underline;
+}
+
+section#index-container p {
+  margin-bottom: 1rem;
+}
