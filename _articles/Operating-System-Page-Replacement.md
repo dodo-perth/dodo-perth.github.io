@@ -85,13 +85,15 @@ The LRU (Least-Recently-Used) page replacement algorithm is conceptually similar
 # Thrashing and Frame Allocation
 The main reason why the page fault rate is high can be due to using a poor page replacement algorithm and having a low number of frames. Thrashing occurs when the system spends more time paging than executing processes. In the context of multiprogramming, if we run too many processes at the same time, the CPU will spend more time on page replacement. Thrashing occurs because we did not guarantee the minimum number of frames needed by each process.
 
-## Equal Allocation
+## Static Allocation
+### Equal Allocation
 This is the simplest allocation. The basic idea is to give an equal number of frames to each process. However, this approach is not recommended because the size of each process can vary significantly. For example, allocating the same number of frames to a large process like League of Legends and a small process like Notepad is not rational.
 
-## Proportional Allocation
+### Proportional Allocation
 Thus, processes size needs to be considered. The proportional allocation allocates a frame to each processes based on its size. It is also called as a static allocation. This method is also not perfect way, since some of the processes size are big, but actual frame needs are smaller. And also, process size is small, but they can need more frames.
 
-## Working Set Model
+## Dynamic Allocation
+### Working Set Model
 The working set model checks the CPU's page referencing rate over a specific period and allocates frames based on that rate. 
 - Monitor Page References: The model tracks the set of pages that a process references within a fixed time window or working set window.
 - Adjust Frame Allocation: Frames are allocated dynamically to each process based on the number of pages in its working set, ensuring each process has enough frames to avoid frequent page faults.
@@ -99,8 +101,12 @@ The working set model checks the CPU's page referencing rate over a specific per
 
 To get working set model, we need pages referenced by the process, and time interval.
 
-## Page Fault Rate Allocation
-a
+### Page Fault Rate Allocation
+The page fault frequency allocation method dynamically adjusts the number of frames assigned to a process based on its page fault rate.
+
+- Monitor Page Fault Rate: The system tracks the frequency of page faults for each process over a specific period.
+- Adjust Frame Allocation: If a process experiences a high page fault rate, it indicates insufficient frames, prompting the system to allocate more frames to that process. Conversely, if the page fault rate is low, the process might have excess frames, allowing the system to reduce the allocation.
+- Optimize Performance: By balancing the frame allocation according to the page fault rate, the method ensures efficient memory usage and reduces the likelihood of thrashing, thereby improving overall system performance.
 
 
 [^1]: [What is Demand Paging in OS (Operating System) | DataTrained](https://datatrained.com/post/demand-paging-in-os/)
