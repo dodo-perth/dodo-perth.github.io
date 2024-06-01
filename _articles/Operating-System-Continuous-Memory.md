@@ -11,3 +11,4 @@ Allocating process into memory continuously.
 # Swapping
 Removed processes are not currently using from memory, and move them to secondary storage. And then, load new process into new empty space.
 
+![image](/images/swap.png)
