@@ -69,7 +69,7 @@ graph TB;
 # External Fragmentation
 Continuous memory allocation is not an efficient way to utilize memory. It has potential problem to occur external fragmentation.
 
-![image](/images/2024-06-01-15-36-58.png | width=100)
+![image](/images/2024-06-01-15-36-58.png)
 
 ## Solution of External Fragmentation
 
