@@ -39,6 +39,7 @@ a {
 
 a:hover {
   color: #005ccc;
+  text-decoration: underline;
 }
 
 .symbol {
