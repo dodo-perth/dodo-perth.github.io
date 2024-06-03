@@ -51,6 +51,7 @@ img.icon {
   margin-right: 1px;
   max-width: 0.8rem;
   max-height: 0.8rem;
+  z-index: 1000;
 }
 
 time {
