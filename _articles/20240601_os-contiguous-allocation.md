@@ -1,12 +1,12 @@
 ---
 id: 0
 title: "5. Operating System : Memory Management"
-subtitle: "Continuous Memory Allocation"
+subtitle: "Contiguous Memory Allocation"
 date: "2024.05.24"
 tags: "OS, Paging"
 ---
-# Continuous Memory Allocation
-Continuous memory allocation assigns a process to a contiguous block of memory, ensuring that all memory addresses used by the process are sequential. This method is simple to implement but can lead to inefficient memory use due to fragmentation. Common strategies for this allocation include first-fit, best-fit, and worst-fit approaches. To manage fragmentation, compaction may be required to consolidate free memory spaces.
+# Contiguous Memory Allocation
+contiguous memory allocation assigns a process to a contiguous block of memory, ensuring that all memory addresses used by the process are sequential. This method is simple to implement but can lead to inefficient memory use due to fragmentation. Common strategies for this allocation include first-fit, best-fit, and worst-fit approaches. To manage fragmentation, compaction may be required to consolidate free memory spaces.
 
 ## Swapping
 Removed processes are not currently using from memory, and move them to secondary storage. And then, load new process into new empty space.
@@ -16,7 +16,7 @@ Removed processes are not currently using from memory, and move them to secondar
 ### Advantage
 If required memory space from several processes is higher than actual memory size, we can execute several processes at the same time.
 
-## Concept of Continuous Memory Allocation
+## Concept of Contiguous Memory Allocation
 Process need to be allocated in empty space of memory. There are few ways to implement it.
 
 **First-Fit** allocation searches for the first block of free memory that is large enough to accommodate the process. Once found, the process is allocated to this block, even if it leaves some unused space. This method is fast and simple but can lead to fragmentation as small gaps may be left between allocated memory blocks. Over time, these gaps can accumulate, making it harder to find suitable blocks for new processes.
@@ -67,7 +67,7 @@ graph TB;
 
 
 # External Fragmentation
-Continuous memory allocation is not an efficient way to utilize memory. It has potential problem to occur external fragmentation.
+contiguous memory allocation is not an efficient way to utilize memory. It has potential problem to occur external fragmentation.
 
 ![image](/images/2024-06-01-15-36-58.png)
 
