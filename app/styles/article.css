@@ -312,4 +312,5 @@ img {
   margin-right: auto;
   max-height: 500px;
   width: auto;
+  isolation: isolate;
 }
