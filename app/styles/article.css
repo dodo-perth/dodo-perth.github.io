@@ -313,4 +313,5 @@ img {
   max-height: 500px;
   width: auto;
   isolation: isolate;
+  z-index: 1000;
 }
