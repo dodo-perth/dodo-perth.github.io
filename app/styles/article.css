@@ -307,9 +307,22 @@ th, td {
 }
 
 img {
+  display: block !important;
+  margin-left: auto;
+  margin-right: auto;
+  max-height: 500px;
+  width: auto;
+}
+
+.darkmode--activated img {
+  mix-blend-mode: difference;
   display: block;
   margin-left: auto;
   margin-right: auto;
   max-height: 500px;
   width: auto;
+}
+
+.darkmode--activated .timeline-comment .avatar>img {
+  mix-blend-mode: difference;
 }
