@@ -1,5 +1,5 @@
 ---
-id: 0
+id: 1
 title: "1. Operating Systems - Overview"
 subtitle: "Introduction to Operating Systems"
 date: "2024.06.15"
@@ -22,3 +22,9 @@ There is no universally accepted definition of `OS`, but we can say OS is a prog
 `System Bus` is using for transferring all signals between CPU and other devices (I/O devices and Memory). And each `device controller` is in charge of particular device type and has local buffer.
 
 To execute program, computer should store the program into its memory including Operating System as well. 
+
+![bootstrap](/images/2024-06-16-18-02-28.png)[^1]
+
+
+[^1] : Bootstrap Image from [Link](https://uselessetymology.com/2019/11/07/the-origins-of-the-phrase-pull-yourself-up-by-your-bootstraps/)
+
