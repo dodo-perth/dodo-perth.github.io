@@ -21,10 +21,11 @@ There is no universally accepted definition of `OS`, but we can say OS is a prog
 ## Computer System Organization
 `System Bus` is using for transferring all signals between CPU and other devices (I/O devices and Memory). And each `device controller` is in charge of particular device type and has local buffer.
 
-To execute program, computer should store the program into its memory including Operating System as well. 
+To execute program, computer should store the program into its memory including Operating System as well. Computer needs initial program to srart running when powered on.
 
-![bootstrap](/images/2024-06-16-18-02-28.png)[^1]
+![image](/images/2024-06-16-18-02-28.png)
 
+The bootstrap is stored in ROM, or EEPROM, it is obvious that the storage should be non-volatile.
 
-[^1] : Bootstrap Image from [Link](https://uselessetymology.com/2019/11/07/the-origins-of-the-phrase-pull-yourself-up-by-your-bootstraps/)
+[^1] : [Bootstrap Image](https://uselessetymology.com/2019/11/07/the-origins-of-the-phrase-pull-yourself-up-by-your-bootstraps/)
 
