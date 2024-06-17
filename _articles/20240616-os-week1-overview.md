@@ -1,7 +1,7 @@
 ---
 id: 1
 title: "Operating Systems - Overview"
-subtitle: "Introduction to Operating Systems"
+subtitle: "Week 1. Introduction to Operating Systems"
 date: "2024.06.15"
 tags: "OS, Lecture"
 ---
@@ -133,6 +133,13 @@ Real-time systems are designed to respond to input or events within a guaranteed
 - **Soft Real-Time Systems**: These systems give higher priority to critical tasks but do not guarantee that deadlines will always be met. Missing a deadline in these systems does not cause catastrophic failure but may degrade performance. Examples include multimedia systems and online transaction processing systems.
 
 ## Virtualization
+Virtualization technology allows an OS to run as applications on other OS. This includes VM Ware, VirtualBox. 
+
+## OS Operation
+In multiprogramming, OS must ensure that an incorrect (or malicious) program cannot cause other programs to execute incorrectly.
+
+- **Dual-Mode Operation** : Hardware provides two modes of operations, user mode and monitor mode.
+
 
 
 [^1]: [Operating System Purposes Image](https://www.geeksforgeeks.org/introduction-of-operating-system-set-1/)
