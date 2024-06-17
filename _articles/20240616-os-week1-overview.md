@@ -1,6 +1,6 @@
 ---
 id: 1
-title: "1. Operating Systems - Overview"
+title: "Operating Systems - Overview"
 subtitle: "Introduction to Operating Systems"
 date: "2024.06.15"
 tags: "OS, Lecture"
@@ -32,16 +32,91 @@ The kernel is the core component of an operating system that manages system reso
 
 The operating system is interrupt-driven, a significant concept for understanding further theory. Being interrupt-driven means that the operating system remains idle until an interrupt occurs from hardware or software (system call).
 
-## How the CPU Works with Interrupts
+## Interrupt Driven
 
-1. **Receive Interrupt:** The CPU receives an interrupt signal from hardware or software.
-2. **CPU Stops Current Activity:** The CPU stops its current execution and saves its state.
-3. **Execute Interrupt Service Routine (ISR):** The CPU jumps to a predefined memory location to execute the Interrupt Service Routine (ISR), which handles the interrupt.
+### How the CPU Works with Interrupts
 
-## Role of the Interrupt Vector Table
+1. **Receive Interrupt**: The CPU receives an interrupt signal from hardware or software.
+2. **CPU Stops Current Activity**: The CPU stops its current execution and saves its state.
+3. **Execute Interrupt Service Routine (ISR)**: The CPU jumps to a predefined memory location to execute the Interrupt Service Routine (ISR), which handles the interrupt.
+
+### Role of the Interrupt Vector Table
+
 The interrupt vector table provides the address of the appropriate Interrupt Service Routine (ISR) for each interrupt, allowing the CPU to efficiently determine and execute the correct ISR when an interrupt occurs. The interrupt vector table contains vector numbers (0-255) and descriptions. It is not necessary to memorize the table, but it is important to understand that lower numbers have higher priority.
 
 For example, if a vector number 14 (page fault) interrupt occurs and the CPU is working on its ISR, and during that process, a vector number 1 (debug exception) makes a system call, the CPU will stop the ISR for vector 14 and jump to the ISR for vector 1.
 
+## Storages
+
+### Storage Structures
+
+![image](/images/2024-06-16-20-09-05.png)
+
+In this diagram, higher-level storages are more expensive and have less space.
+
+**Volatile Storage**: Registers, cache, and main memory lose their contents when not powered.
+
+**Non-Volatile Storage**: SSDs, magnetic disks, optical disks, and magnetic tapes keep their contents even when power is off.
+
+### Von Neumann Architecture
+
+The CPU can execute instructions only from memory.
+
+#### Execution Cycle
+
+1. **Fetch**: Fetch instruction from memory & store it in the instruction register.
+2. **Decode**: Decode the instruction to determine the operation to be performed.
+3. **Execute**: Execute the decoded instruction using the appropriate components of the CPU (ALU, registers, etc.).
+4. **Store**: Store the result of the execution back into memory or a register.
+5. **Repeat**.
+
+## I/O Basic Concepts
+
+An I/O device communicates with a computer system by sending signals over a cable or wireless via a port.
+
+### Host and Controller Interactions
+
+There are three ways to communicate with an I/O controller.
+
+#### Polling
+
+The host repeatedly reads the `busy` bit in the status register until it's not busy. The polling method is efficient when the device and controller are fast.
+
+#### Interrupt Based I/O
+
+1. Device controller makes an interrupt to the CPU.
+2. CPU catches the interrupt and dispatches it to the interrupt service routine.
+3. Interrupt handler clears the interrupt.
+
+#### Direct Memory Access (DMA)
+
+DMA is used to improve performance for large data transfers. By using a special-purpose processor, the CPU can do other work concurrently while data is transferring.
+
+![image](/images/2024-06-17-16-20-02.png)[^3]
+
+## Computer-System Architecture
+
+A single processor system (only one CPU) can execute general-purpose instructions. However, a multiprocessor system contains two or more processors working together.
+
+### Main Advantages of Multiprocessor System
+
+1. **Increasing throughput**: Get more work done in less time.
+2. **Economy of scale**: Multiple devices can be shared.
+3. **Increasing reliability**: One processor failure doesn't stop the system.
+
+### Types of Multiprocessor System
+
+1. **Asymmetric multiprocessing**: One master, and multiple slaves.
+2. **Symmetric multiprocessing**: (common) Each processor has its own registers and cache.
+
+### Multicore System
+
+- **Multicore System**: A multiprocessor system on a single chip. On-chip communication is faster than inter-chip communication, so it's efficient.
+- **Blade Servers**: Multiple processor boards.
+
+![image](/images/2024-06-17-17-04-34.png)[^4]
+
 [^1]: [Operating System Purposes Image](https://www.geeksforgeeks.org/introduction-of-operating-system-set-1/)
 [^2]: [Bootstrap Image](https://uselessetymology.com/2019/11/07/the-origins-of-the-phrase-pull-yourself-up-by-your-bootstraps/)
+[^3]: [DMA Diagram](https://jawadsblog.wordpress.com/2009/11/21/direct-memory-access/)
+[^4]: [Blade Server Image](https://en.wikipedia.org/wiki/Blade_server)

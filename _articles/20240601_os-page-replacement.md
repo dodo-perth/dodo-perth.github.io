@@ -1,6 +1,6 @@
 ---
 id: 2
-title: "7. Operating System : Memory Management"
+title: "Operating System : Memory Management"
 subtitle: "Page Replacement and Allocation of Frames"
 date: "2024.05.24"
 tags: "OS, Paging"

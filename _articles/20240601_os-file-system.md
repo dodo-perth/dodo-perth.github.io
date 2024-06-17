@@ -1,6 +1,6 @@
 ---
 id: 4
-title: "10. Operating System : File System"
+title: "Operating System : File System"
 subtitle: "File System"
 date: "2024.06.01"
 tags: "OS, File System"

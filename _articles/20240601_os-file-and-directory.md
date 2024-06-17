@@ -1,6 +1,6 @@
 ---
 id: 3
-title: "8. Operating System : File System"
+title: "Operating System : File System"
 subtitle: "File and Directory Basis"
 date: "2024.06.01"
 tags: "OS, File System"
