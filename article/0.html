@@ -1,0 +1,123 @@
+<!doctypehtml>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>5. Operating System : Memory Management</title>
+
+  <meta name="viewport"content="width=device-width,initial-scale=1">
+  <meta http-equiv="X-UA-Compatible"content="ie=edge">
+
+  <link rel="shortcut icon"href="../assets/favicon.ico"type="image/x-icon">
+  <link rel="preload"href="../styles/article.css"as="style">
+  <link rel="stylesheet"href="../styles/article.css">
+</head>
+<body>
+  <header id="top-container"role="navigation">
+    <nav>
+  <a class="logo-link"href="/">
+    <h1>Dohyun Kwak</h1>
+    <span>Curtin University: Bachelor of IT</span>
+  </a>
+  <br>
+  <small>
+    <a id="works"class="info-link"href="/works.html">Works</a> /
+    <a id="articles"class="info-link"href="/articles.html">Articles</a>
+  </small>
+</nav>
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+<script>
+  function addDarkmodeWidget() {
+    new Darkmode().showWidget();
+  }
+  window.addEventListener('load', addDarkmodeWidget);
+</script>
+  </header>
+  <main id="main-container">
+    <article id="article-container">
+      <h1 id="article-title">
+        5. Operating System : Memory Management
+      </h1>
+      
+        <h2 id="article-subtitle">
+          Contiguous Memory Allocation
+        </h2>
+      
+      <time id="article-date">
+        2024.05.24
+      </time>
+      <section id="article-content-container">
+        <details><summary>Table of Contents</summary>
+<p><div class="table-of-contents"><ul><li><a href="#contiguous-memory-allocation">Contiguous Memory Allocation</a><ul><li><a href="#swapping">Swapping</a><ul><li><a href="#advantage">Advantage</a></ul><li><a href="#concept-of-contiguous-memory-allocation">Concept of Contiguous Memory Allocation</a></ul><li><a href="#external-fragmentation">External Fragmentation</a><ul><li><a href="#solution-of-external-fragmentation">Solution of External Fragmentation</a></ul></ul></div><p></p>
+</details>
+<h1 id="contiguous-memory-allocation"tabindex="-1">Contiguous Memory Allocation</h1>
+<p>contiguous memory allocation assigns a process to a contiguous block of memory, ensuring that all memory addresses used by the process are sequential. This method is simple to implement but can lead to inefficient memory use due to fragmentation. Common strategies for this allocation include first-fit, best-fit, and worst-fit approaches. To manage fragmentation, compaction may be required to consolidate free memory spaces.</p>
+<h2 id="swapping"tabindex="-1">Swapping</h2>
+<p>Removed processes are not currently using from memory, and move them to secondary storage. And then, load new process into new empty space.</p>
+<p><img src="/images/2024-06-01-14-57-21.png"alt="1"loading="lazy"decoding="async"width="562"height="425"></p>
+<h3 id="advantage"tabindex="-1">Advantage</h3>
+<p>If required memory space from several processes is higher than actual memory size, we can execute several processes at the same time.</p>
+<h2 id="concept-of-contiguous-memory-allocation"tabindex="-1">Concept of Contiguous Memory Allocation</h2>
+<p>Process need to be allocated in empty space of memory. There are few ways to implement it.</p>
+<p><strong>First-Fit</strong> allocation searches for the first block of free memory that is large enough to accommodate the process. Once found, the process is allocated to this block, even if it leaves some unused space. This method is fast and simple but can lead to fragmentation as small gaps may be left between allocated memory blocks. Over time, these gaps can accumulate, making it harder to find suitable blocks for new processes.</p>
+<div class="mermaid">graph TB;
+    subgraph Free_Memory_Blocks
+        B[Block 1: 400KB]
+        C[Block 2: 300KB]
+        D[Block 3: 200KB]
+        E[Block 4: 100KB]
+    end
+    F[New Process: 150KB] --> B
+    style B fill:#f96,stroke:#333,stroke-width:2px;</div><hr>
+<p><strong>Best-Fit</strong> allocation searches the entire list of free memory blocks to find the smallest block that is large enough to accommodate the process. This approach aims to minimize wasted space by selecting the block that leaves the least amount of unused memory. While it can reduce fragmentation initially, it is slower due to the need to search the entire list, and small gaps may still accumulate over time. These small gaps can become problematic if not managed properly, as they may be too small for future allocations.</p>
+<div class="mermaid">graph TB;
+    subgraph Free_Memory_Blocks
+        B[Block 1: 100KB]
+        G[Block 2: 250KB]
+        D[Block 3: 300KB]
+        E[Block 4: 400KB]
+    end
+    F[New Process: 150KB] --> G
+    style G fill:#f96,stroke:#333,stroke-width:2px;</div><hr>
+<p><strong>Worst-Fit</strong> allocation searches for the largest available block of memory to allocate to the process. The idea is to leave larger remaining blocks, reducing fragmentation by avoiding the creation of small unusable gaps. This method can lead to better utilization of memory over time but may waste large blocks on smaller processes, leaving fewer large blocks available for future needs. The search for the largest block can also make this method slower compared to first-fit.</p>
+<div class="mermaid">graph TB;
+    subgraph Free_Memory_Blocks
+        B[Block 1: 100KB]
+        C[Block 2: 200KB]
+        D[Block 3: 300KB]
+        H[Block 4: 500KB]
+    end
+    F[New Process: 150KB] --> H
+    style H fill:#f96,stroke:#333,stroke-width:2px;</div><h1 id="external-fragmentation"tabindex="-1">External Fragmentation</h1>
+<p>contiguous memory allocation is not an efficient way to utilize memory. It has potential problem to occur external fragmentation.</p>
+<p><img src="/images/2024-06-01-15-36-58.png"alt="image"loading="lazy"decoding="async"width="899"height="1264"></p>
+<h2 id="solution-of-external-fragmentation"tabindex="-1">Solution of External Fragmentation</h2>
+<p><strong>Memory compaction</strong> is a process used by the operating system to consolidate free memory space by relocating allocated memory blocks, thereby reducing fragmentation. This technique ensures that all free memory is contiguous, making it easier to allocate large blocks of memory to new processes.</p>
+<p><strong>Paging</strong> is the most effective and popular way to solve external fragmentation. To implement this, virtual memory is required.</p>
+
+      </section>
+      <section id="article-navigation">
+        
+          <div class="article-navigation-item article-navigation-next">
+            <a href="/article/3.html">
+              <div class="article-navigation-arrow article-navigation-next">＜</div>
+              <div class="article-navigation-content article-navigation-next">
+                <p class="article-navigation-title">8. Operating System : File System</p>
+                <p class="article-navigation-subtitle">File and Directory Basis</p>
+              </div>
+            </a>
+          </div>
+        
+        
+      </section>
+      
+    </article>
+  </main>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  <script src="https://utteranc.es/client.js"repo="dodo-perth/dodo-perth.github.io"issue-term="title"theme="github-light"crossorigin="anonymous"async>
+  </script>
+  
+
+

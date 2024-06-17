@@ -1,0 +1,171 @@
+<!doctypehtml>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Operating System : Memory Management</title>
+
+  <meta name="viewport"content="width=device-width,initial-scale=1">
+  <meta http-equiv="X-UA-Compatible"content="ie=edge">
+
+  <link rel="shortcut icon"href="../assets/favicon.ico"type="image/x-icon">
+  <link rel="preload"href="../styles/article.css"as="style">
+  <link rel="stylesheet"href="../styles/article.css">
+</head>
+<body>
+  <header id="top-container"role="navigation">
+    <nav>
+  <a class="logo-link"href="/">
+    <h1>Dohyun Kwak</h1>
+    <span>Curtin University: Bachelor of IT</span>
+  </a>
+  <br>
+  <small>
+    <a id="works"class="info-link"href="/works.html">Works</a> /
+    <a id="articles"class="info-link"href="/articles.html">Articles</a>
+  </small>
+</nav>
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+<script>
+  function addDarkmodeWidget() {
+    new Darkmode().showWidget();
+  }
+  window.addEventListener('load', addDarkmodeWidget);
+</script>
+  </header>
+  <main id="main-container">
+    <article id="article-container">
+      <h1 id="article-title">
+        Operating System : Memory Management
+      </h1>
+      
+        <h2 id="article-subtitle">
+          Paging with Virtual Memory
+        </h2>
+      
+      <time id="article-date">
+        2024.05.24
+      </time>
+      <section id="article-content-container">
+        <details><summary>Table of Contents</summary>
+<p><div class="table-of-contents"><ul><li><a href="#virtual-memory">Virtual Memory</a><ul><li><a href="#limitations-of-continuous-memory-allocation">Limitations of Continuous Memory Allocation</a><li><a href="#what-is-virtual-memory%3F">What is Virtual Memory?</a><li><a href="#paging">Paging</a><ul><li><a href="#paging-process-overview">Paging Process Overview</a><li><a href="#swapping-in-paging">Swapping in Paging</a></ul><li><a href="#page-table">Page Table</a><ul><li><a href="#internal-fragmentation">Internal Fragmentation</a><li><a href="#page-table-base-register-(ptbr)">Page Table Base Register (PTBR)</a><li><a href="#tlb-(translation-lookaside-buffer)">TLB (Translation Lookaside Buffer)</a><li><a href="#address-mapping-in-paging">Address Mapping in Paging</a><li><a href="#page-table-entry-(pte)">Page Table Entry (PTE)</a></ul></ul><li><a href="#references">References</a></ul></div><p></p>
+</details>
+<h1 id="virtual-memory"tabindex="-1">Virtual Memory</h1>
+<h2 id="limitations-of-continuous-memory-allocation"tabindex="-1">Limitations of Continuous Memory Allocation</h2>
+<p>Continuous memory allocation has problems when a process is larger than the actual memory and can also cause external fragmentation.</p>
+<h2 id="what-is-virtual-memory%3F"tabindex="-1">What is Virtual Memory?</h2>
+<p>Virtual memory allows a system to execute programs larger than its physical memory by allocating parts of the program into memory.</p>
+<h2 id="paging"tabindex="-1">Paging</h2>
+<p>Paging is a solution to external fragmentation, which occurs when processes of different sizes are allocated into memory continuously. If each process is the same size, external fragmentation can be prevented. Paging divides a process by a specific size and allocates it into memory discontinuously.</p>
+<h3 id="paging-process-overview"tabindex="-1">Paging Process Overview</h3>
+<ol>
+<li>Divide the process’s logical address space into pages.</li>
+<li>Divide memory’s physical address space into frames of the same size as the pages.</li>
+<li>Allocate pages into frames.</li>
+</ol>
+<h3 id="swapping-in-paging"tabindex="-1">Swapping in Paging</h3>
+<p>Swapping in paging involves moving a process’s page from swap space in secondary storage into physical memory (Swap In/Page In) and vice versa (Swap Out/Page Out). Pages not needed in memory are swapped out, while those needed for execution are swapped in, allowing a process to run even if part of it is in secondary storage.</p>
+<h4 id="limitations"tabindex="-1">Limitations</h4>
+<ol>
+<li>The CPU struggles to find which page is stored in which frame.</li>
+<li>If processes are allocated discontinuously, the CPU cannot execute them in proper order.</li>
+<li>The CPU cannot find the location of the next instruction.</li>
+</ol>
+<h2 id="page-table"tabindex="-1">Page Table</h2>
+<p>The page table overcomes these problems by mapping each page number to a frame, storing pages continuously in the logical address space used by the CPU.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Page Number</strong></th>
+<th><strong>Frame Number</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>3</td>
+</tr>
+<tr>
+<td>1</td>
+<td>5</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>Each process has its own page table. The CPU only needs to run each page from the page table, checking logical addresses even if actual pages are distributed physically.</p>
+<h3 id="internal-fragmentation"tabindex="-1">Internal Fragmentation</h3>
+<p>If the page size is 10KB and a process size is 108KB, then 2KB of internal fragmentation occurs. This is always smaller than the page size.</p>
+<h3 id="page-table-base-register-(ptbr)"tabindex="-1">Page Table Base Register (PTBR)</h3>
+<p>Each process has its page table, pointed to by the Page Table Base Register in the CPU. If the page table is in memory, memory access time increases because the CPU needs to access both the page table and the page.</p>
+<h3 id="tlb-(translation-lookaside-buffer)"tabindex="-1">TLB (Translation Lookaside Buffer)</h3>
+<p>TLB is a special cache memory containing part of the page table and working with the CPU.</p>
+<ul>
+<li><strong>TLB Hit</strong>: The logical address the CPU is trying to access is in the TLB.</li>
+<li><strong>TLB Miss</strong>: The CPU needs to access memory twice (to page table, to frame).</li>
+</ul>
+<h3 id="address-mapping-in-paging"tabindex="-1">Address Mapping in Paging</h3>
+<p>When the CPU wants to access a specific address, it needs information about:</p>
+<ol>
+<li>The page/frame it wants to access.</li>
+<li>The offset of that page/frame.</li>
+</ol>
+<p>Logical addresses are composed of <code>&lt;Page Number, Offset&gt;</code>. After passing through the page table, they are replaced with <code>&lt;Frame Number, Offset&gt;</code>.</p>
+<h3 id="page-table-entry-(pte)"tabindex="-1">Page Table Entry (PTE)</h3>
+<p>Each column of the page table is a Page Table Entry (PTE). It contains:</p>
+<ul>
+<li><strong>Validation Bit</strong>: Indicates if the page is accessible. If the valid bit is 1, the page is accessible. Accessing a page with a validation bit of 0 causes a Page Fault Interrupt.
+<ol>
+<li>The CPU backs up its current state.</li>
+<li>Executes the page fault service routine.</li>
+<li>The service routine brings the page into memory and changes the validation bit to 1.</li>
+<li>After the service finishes, the CPU can access the page.</li>
+</ol>
+</li>
+<li><strong>Protection Bit</strong>: Manages permissions for reading, writing, and execution to protect the page.</li>
+<li><strong>Reference Bit</strong>: Set to 1 once the CPU accesses that page.</li>
+<li><strong>Dirty Bit</strong>: Set to 1 once the CPU modifies that page. It helps decide whether to write to secondary storage when the page is removed from memory.</li>
+</ul>
+<h1 id="references"tabindex="-1">References</h1>
+<ol>
+<li>This article is based on the <a href="https://www.youtube.com/watch?v=8ufliWkgqMo&amp;list=PLYH7OjNUOWLUz15j4Q9M6INxK5J3-59GC&amp;index=41">[컴퓨터 공학 기초 강의] 38강. 페이징을 통한 가상 메모리 관리</a>.</li>
+</ol>
+
+      </section>
+      <section id="article-navigation">
+        
+          <div class="article-navigation-item article-navigation-next">
+            <a href="/article/1.html">
+              <div class="article-navigation-arrow article-navigation-next">＜</div>
+              <div class="article-navigation-content article-navigation-next">
+                <p class="article-navigation-title">Operating Systems - Overview</p>
+                <p class="article-navigation-subtitle">Week 1. Introduction to Operating Systems</p>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="article-navigation-item article-navigation-prev">
+            <a href="/article/2.html">
+              <div class="article-navigation-arrow article-navigation-prev">＞</div>
+              <div class="article-navigation-content article-navigation-prev">
+                <p class="article-navigation-title">Operating System : Memory Management</p>
+                <p class="article-navigation-subtitle">Page Replacement and Allocation of Frames</p>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+    </article>
+  </main>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  <script src="https://utteranc.es/client.js"repo="dodo-perth/dodo-perth.github.io"issue-term="title"theme="github-light"crossorigin="anonymous"async>
+  </script>
+  
+
+

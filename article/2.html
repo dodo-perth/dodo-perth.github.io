@@ -1,0 +1,451 @@
+<!doctypehtml>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Operating System : Memory Management</title>
+
+  <meta name="viewport"content="width=device-width,initial-scale=1">
+  <meta http-equiv="X-UA-Compatible"content="ie=edge">
+
+  <link rel="shortcut icon"href="../assets/favicon.ico"type="image/x-icon">
+  <link rel="preload"href="../styles/article.css"as="style">
+  <link rel="stylesheet"href="../styles/article.css">
+</head>
+<body>
+  <header id="top-container"role="navigation">
+    <nav>
+  <a class="logo-link"href="/">
+    <h1>Dohyun Kwak</h1>
+    <span>Curtin University: Bachelor of IT</span>
+  </a>
+  <br>
+  <small>
+    <a id="works"class="info-link"href="/works.html">Works</a> /
+    <a id="articles"class="info-link"href="/articles.html">Articles</a>
+  </small>
+</nav>
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+<script>
+  function addDarkmodeWidget() {
+    new Darkmode().showWidget();
+  }
+  window.addEventListener('load', addDarkmodeWidget);
+</script>
+  </header>
+  <main id="main-container">
+    <article id="article-container">
+      <h1 id="article-title">
+        Operating System : Memory Management
+      </h1>
+      
+        <h2 id="article-subtitle">
+          Page Replacement and Allocation of Frames
+        </h2>
+      
+      <time id="article-date">
+        2024.05.24
+      </time>
+      <section id="article-content-container">
+        <details><summary>Table of Contents</summary>
+<p><div class="table-of-contents"><ul><li><a href="#demand-paging">Demand Paging</a><li><a href="#page-replacement-algorithms">Page Replacement Algorithms</a><ul><li><a href="#what-are-key-elements-to-determine-good-algorithm%3F">What are key elements to determine good algorithm?</a><li><a href="#fifo-page-replacement-algorithm">FIFO Page replacement algorithm</a><ul><li><a href="#example">Example</a><li><a href="#pros-and-cons">Pros and Cons</a></ul><li><a href="#second-chance-page-replacement-algorithm">Second-Chance Page Replacement Algorithm</a><li><a href="#optimal-page-replacement-algorithm">Optimal Page replacement algorithm</a><ul><li><a href="#example-1">Example</a><li><a href="#pros-and-cons-1">Pros and Cons</a></ul><li><a href="#lru-page-replacement-algorithm">LRU Page replacement algorithm</a><ul><li><a href="#example%3A">Example:</a></ul></ul><li><a href="#thrashing-and-frame-allocation">Thrashing and Frame Allocation</a><ul><li><a href="#static-allocation">Static Allocation</a><ul><li><a href="#equal-allocation">Equal Allocation</a><li><a href="#proportional-allocation">Proportional Allocation</a></ul><li><a href="#dynamic-allocation">Dynamic Allocation</a><ul><li><a href="#working-set-model">Working Set Model</a><li><a href="#page-fault-rate-allocation">Page Fault Rate Allocation</a></ul></ul></ul></div><p></p>
+</details>
+<h1 id="demand-paging"tabindex="-1">Demand Paging</h1>
+<p>Demand paging is a memory management technique used by operating systems to optimize memory usage. In demand paging, only the required pages of a program are loaded into memory when needed, rather than loading the entire program at once.<sup class="footnote-ref"><a href="#fn1"id="fnref1">[1]</a></sup></p>
+<p><strong>Process</strong></p>
+<ol>
+<li>Page Request: The CPU requests a specific page needed to execute the current instruction.</li>
+<li>Page Table Lookup: The CPU checks the page table to see if the requested page is in physical memory.</li>
+<li>Page Table Check: If the page is present, the CPU continues execution; if not, a page fault occurs.</li>
+<li>Page Fault Handling: The operating system loads the requested page from secondary storage into memory and updates the page table.</li>
+<li>Resuming Execution: The CPU resumes execution with the now-loaded page, continuing the interrupted process.</li>
+</ol>
+<p><strong>Pure Demand Paging</strong> : Pure demand paging is a memory management technique where pages are loaded into memory only when accessed. Initially, no pages are in memory. When a page is accessed, a page fault occurs, prompting the operating system to load the needed page from the disk. This method conserves memory but can cause performance overhead due to frequent page faults.</p>
+<h1 id="page-replacement-algorithms"tabindex="-1">Page Replacement Algorithms</h1>
+<p>When we are allocating pages on memory, memory will be full. Therefore, some of the pages need to be replaced. Then, how can we decide which page should be replaced?</p>
+<h2 id="what-are-key-elements-to-determine-good-algorithm%3F"tabindex="-1">What are key elements to determine good algorithm?</h2>
+<p><strong>Algorithm that has less page fault</strong> (higher page fault rate will decrease computer’s performance).
+We can investigate occurences of page fault by using <code>page reference string</code>. Page reference string is the string that skipped the continuous page. For example, the page string has <code>2 2 2 3 5 5 5 3 3 7</code> than page reference string will be <code>2 3 5 3 7</code>.</p>
+<h2 id="fifo-page-replacement-algorithm"tabindex="-1">FIFO Page replacement algorithm</h2>
+<p>The FIFO page replacement algorithm is one of the simplest page replacement algorithms. It works on the principle of “First-In-First-Out,” meaning that the oldest page in memory is replaced first when a new page needs to be loaded.</p>
+<h3 id="example"tabindex="-1">Example</h3>
+<ol>
+<li>Consider a sequence of page references: 1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5.</li>
+<li>Assume the memory can hold 3 pages at a time.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+<th>11</th>
+<th>12</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Page Reference</strong></td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>1</td>
+<td>2</td>
+<td>5</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+</tr>
+<tr>
+<td><strong>Memory State</strong></td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td></td>
+<td>-</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>3</td>
+<td>3</td>
+<td>5</td>
+</tr>
+<tr>
+<td></td>
+<td>-</td>
+<td>-</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td><strong>Page Fault</strong></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<h3 id="pros-and-cons"tabindex="-1">Pros and Cons</h3>
+<p>The optimal page replacement algorithm is beneficial when memory needs to run specific pages quickly when a program is loaded. However, it has disadvantages when there are pages that need to be executed the whole time while the program is running.</p>
+<h2 id="second-chance-page-replacement-algorithm"tabindex="-1">Second-Chance Page Replacement Algorithm</h2>
+<p>The second-chance page replacement algorithm is a variation of the FIFO page replacement algorithm. It works similarly to FIFO but also considers the reference bits in the Page Table Entries (PTE).</p>
+<p>If the reference bit is 1, the page is given a second chance. If the reference bit is 0, the page will be replaced. When the CPU refers to the page, the page’s reference bit is set to 1.</p>
+<h2 id="optimal-page-replacement-algorithm"tabindex="-1">Optimal Page replacement algorithm</h2>
+<p>The optimal page replacement algorithm, also known as Belady’s algorithm, replaces the page that will not be used for the longest period of time in the future. It is theoretical and cannot be implemented in practice because it requires future knowledge of the reference string. However, it serves as an ideal benchmark to compare the performance of other page replacement algorithms.</p>
+<h3 id="example-1"tabindex="-1">Example</h3>
+<ol>
+<li>Consider a sequence of page references: 1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5.</li>
+<li>Assume the memory can hold 3 pages at a time.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+<th>11</th>
+<th>12</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Page Reference</strong></td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>1</td>
+<td>2</td>
+<td>5</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+</tr>
+<tr>
+<td><strong>Memory State</strong></td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td></td>
+<td>-</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td></td>
+<td>-</td>
+<td>-</td>
+<td>3</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td><strong>Page Fault</strong></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<h3 id="pros-and-cons-1"tabindex="-1">Pros and Cons</h3>
+<p>This algorithm gaurantees that minimum page fault rate. However, it cannot be implemented in practical. Since, we cannot predict the future correctly. This is useful only for measurement.</p>
+<h2 id="lru-page-replacement-algorithm"tabindex="-1">LRU Page replacement algorithm</h2>
+<p>The LRU (Least-Recently-Used) page replacement algorithm is conceptually similar to the optimal page replacement algorithm. However, the LRU algorithm replaces the page that has not been used for the longest time, rather than predicting which pages will not be used for the longest time.</p>
+<h3 id="example%3A"tabindex="-1">Example:</h3>
+<ol>
+<li>Consider a sequence of page references: 1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5.</li>
+<li>Assume the memory can hold 3 pages at a time.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+<th>11</th>
+<th>12</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Page Reference</strong></td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>1</td>
+<td>2</td>
+<td>5</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+</tr>
+<tr>
+<td><strong>Memory State</strong></td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td></td>
+<td>-</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td></td>
+<td>-</td>
+<td>-</td>
+<td>3</td>
+<td>4</td>
+<td>3</td>
+<td>3</td>
+<td>5</td>
+<td>1</td>
+<td>1</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+</tr>
+<tr>
+<td><strong>Page Fault</strong></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<h1 id="thrashing-and-frame-allocation"tabindex="-1">Thrashing and Frame Allocation</h1>
+<p>The main reason why the page fault rate is high can be due to using a poor page replacement algorithm and having a low number of frames. Thrashing occurs when the system spends more time paging than executing processes. In the context of multiprogramming, if we run too many processes at the same time, the CPU will spend more time on page replacement. Thrashing occurs because we did not guarantee the minimum number of frames needed by each process.</p>
+<h2 id="static-allocation"tabindex="-1">Static Allocation</h2>
+<h3 id="equal-allocation"tabindex="-1">Equal Allocation</h3>
+<p>This is the simplest allocation. The basic idea is to give an equal number of frames to each process. However, this approach is not recommended because the size of each process can vary significantly. For example, allocating the same number of frames to a large process like League of Legends and a small process like Notepad is not rational.</p>
+<h3 id="proportional-allocation"tabindex="-1">Proportional Allocation</h3>
+<p>Thus, processes size needs to be considered. The proportional allocation allocates a frame to each processes based on its size. It is also called as a static allocation. This method is also not perfect way, since some of the processes size are big, but actual frame needs are smaller. And also, process size is small, but they can need more frames.</p>
+<h2 id="dynamic-allocation"tabindex="-1">Dynamic Allocation</h2>
+<h3 id="working-set-model"tabindex="-1">Working Set Model</h3>
+<p>The working set model checks the CPU’s page referencing rate over a specific period and allocates frames based on that rate.</p>
+<ul>
+<li>Monitor Page References: The model tracks the set of pages that a process references within a fixed time window or working set window.</li>
+<li>Adjust Frame Allocation: Frames are allocated dynamically to each process based on the number of pages in its working set, ensuring each process has enough frames to avoid frequent page faults.</li>
+<li>Reduce Thrashing: By ensuring each process has the necessary frames for its current working set, the model helps reduce thrashing and improve overall system performance.</li>
+</ul>
+<p>To get working set model, we need pages referenced by the process, and time interval.</p>
+<h3 id="page-fault-rate-allocation"tabindex="-1">Page Fault Rate Allocation</h3>
+<p>The page fault frequency allocation method dynamically adjusts the number of frames assigned to a process based on its page fault rate.</p>
+<ul>
+<li>Monitor Page Fault Rate: The system tracks the frequency of page faults for each process over a specific period.</li>
+<li>Adjust Frame Allocation: If a process experiences a high page fault rate, it indicates insufficient frames, prompting the system to allocate more frames to that process. Conversely, if the page fault rate is low, the process might have excess frames, allowing the system to reduce the allocation.</li>
+<li>Optimize Performance: By balancing the frame allocation according to the page fault rate, the method ensures efficient memory usage and reduces the likelihood of thrashing, thereby improving overall system performance.</li>
+</ul>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1"class="footnote-item"><p><a href="https://datatrained.com/post/demand-paging-in-os/">What is Demand Paging in OS (Operating System) | DataTrained</a> <a href="#fnref1"class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+      </section>
+      <section id="article-navigation">
+        
+          <div class="article-navigation-item article-navigation-next">
+            <a href="/article/12.html">
+              <div class="article-navigation-arrow article-navigation-next">＜</div>
+              <div class="article-navigation-content article-navigation-next">
+                <p class="article-navigation-title">Operating System : Memory Management</p>
+                <p class="article-navigation-subtitle">Paging with Virtual Memory</p>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="article-navigation-item article-navigation-prev">
+            <a href="/article/4.html">
+              <div class="article-navigation-arrow article-navigation-prev">＞</div>
+              <div class="article-navigation-content article-navigation-prev">
+                <p class="article-navigation-title">Operating System : File System</p>
+                <p class="article-navigation-subtitle">File System</p>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+    </article>
+  </main>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  <script src="https://utteranc.es/client.js"repo="dodo-perth/dodo-perth.github.io"issue-term="title"theme="github-light"crossorigin="anonymous"async>
+  </script>
+  
+
+
