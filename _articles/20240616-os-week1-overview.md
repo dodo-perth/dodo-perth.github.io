@@ -110,13 +110,34 @@ A single processor system (only one CPU) can execute general-purpose instruction
 2. **Symmetric multiprocessing**: (common) Each processor has its own registers and cache.
 
 ### Multicore System
-
+> You should be able to explain the key difference between multicore systems.
 - **Multicore System**: A multiprocessor system on a single chip. On-chip communication is faster than inter-chip communication, so it's efficient.
-- **Blade Servers**: Multiple processor boards.
+- **Blade Servers**: Multiple processor boards and mostly using for server computer.
+- **Clustered System**: Cluster systems are created when two or more computer systems are merged. Basically, they have an independent computer but have common storage and the systems work together. 
 
 ![image](/images/2024-06-17-17-04-34.png)[^4]
+
+## CPU Scheduling
+### Multiprogramming
+To increase CPU utilization, we need to store several processes into memory and make the CPU multiplex among them. To achieve this, the OS needs these features: job scheduling, memory management, CPU scheduling, and I/O allocation.
+
+![image](/images/2024-06-17-19-47-39.png)[^5]
+
+### Time-Sharing/Multitasking Systems
+To provide interactive use of a computer system at a reasonable cost, we use the time-sharing method, a variant of multiprogramming. The CPU is multiplexed among jobs in memory rapidly, allowing users to interact with their running programs. Required OS features include online communication between users and the system and an online file system for users to access data and code.
+
+### Real-Time Systems
+Real-time systems are designed to respond to input or events within a guaranteed time frame. They are used in environments where timing is crucial, such as embedded systems, medical devices, and industrial control systems. 
+
+- **Hard Real-Time Systems**: These systems guarantee that critical tasks are completed on time and are typically implemented with specialized hardware. They are used in applications where missing a deadline could lead to catastrophic consequences, such as in medical imaging systems and industrial control systems.
+- **Soft Real-Time Systems**: These systems give higher priority to critical tasks but do not guarantee that deadlines will always be met. Missing a deadline in these systems does not cause catastrophic failure but may degrade performance. Examples include multimedia systems and online transaction processing systems.
+
+## Virtualization
+
 
 [^1]: [Operating System Purposes Image](https://www.geeksforgeeks.org/introduction-of-operating-system-set-1/)
 [^2]: [Bootstrap Image](https://uselessetymology.com/2019/11/07/the-origins-of-the-phrase-pull-yourself-up-by-your-bootstraps/)
 [^3]: [DMA Diagram](https://jawadsblog.wordpress.com/2009/11/21/direct-memory-access/)
 [^4]: [Blade Server Image](https://en.wikipedia.org/wiki/Blade_server)
+[^5]: [Multiprogramming Diagram](https://www.geeksforgeeks.org/multiprogramming-in-operating-system/)
+
