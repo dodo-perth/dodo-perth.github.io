@@ -138,8 +138,43 @@ Virtualization technology allows an OS to run as applications on other OS. This 
 ## OS Operation
 In multiprogramming, OS must ensure that an incorrect (or malicious) program cannot cause other programs to execute incorrectly.
 
-- **Dual-Mode Operation** : Hardware provides two modes of operations, user mode and monitor mode.
+**Dual-Mode Operation** : Hardware provides two modes of operations, user mode and monitor mode.
 
+`Priviliged Instructions` are only executed in the monitor mode as it can harm the system since it is designed to control hardware.
+
+**I/O Instructions** : All I/O instructions are _priviliged_ instructions, and use system call.
+
+**Memory Protection** : `Base Register` is smallest physical memory address. `Limit Register` contains size of the range.
+![image](/images/2024-06-18-20-26-47.png)
+
+**CPU** : CPU prevents some program use CPU all the time. The solution can be `timer`.
+
+## System Calls
+> This is the main concepts that you need to understand on week 1 lecture.
+
+System call is a user interface to the OS services. It is known by its number, and as I mentioned before it is software generated interrupt.
+
+## OS Structures
+
+### Monolithic/Simple Structure
+No well-defined structures, it is not divided into modules, MS-DOS has some structure, its interfaces and levels of functionality are not well seperated.
+
+**Advantages** : The most simple structure.
+
+**Disadvantages** : Lack of modularity, security Risks.
+### Layered Approch
+The OS is divided into a number of layers(levels). 
+
+**Advantages** : High modularity, easy to debug
+
+**Disadvantages** : Less efficient, hard to define level functionality. 
+
+### Microkernel
+Smaller-size kernel, only provides minimal services.
+
+**Advantages** : Easier to extend OS, more portable, better security and reliability.
+
+**Disadvantages** : Low performance.
 
 
 [^1]: [Operating System Purposes Image](https://www.geeksforgeeks.org/introduction-of-operating-system-set-1/)

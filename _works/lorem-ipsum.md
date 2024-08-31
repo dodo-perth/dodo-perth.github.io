@@ -1,12 +1,10 @@
 ---
-title: "Lorem Ipsum"
-subtitle: "Sed sit amet arcu a diam tincidunt porta"
-thumbnail: "/images/800x600.png"
+title: "Planify"
+subtitle: "AI-powered Planner Extension"
+thumbnail: "/images/2024-08-31-13-56-25.png"
 ---
 
-![dummy image](/images/800x600.png)
-
-![dummy image](/images/800x600.png)
+![dummy image](/images/2024-08-31-13-56-25.png)
 
 _**Lorem Ipsum (2019)**_
 
