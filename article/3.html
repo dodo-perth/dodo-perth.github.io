@@ -1,0 +1,116 @@
+<!doctypehtml>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Operating System : File System</title>
+
+  <meta name="viewport"content="width=device-width,initial-scale=1">
+  <meta http-equiv="X-UA-Compatible"content="ie=edge">
+
+  <link rel="shortcut icon"href="../assets/favicon.ico"type="image/x-icon">
+  <link rel="preload"href="../styles/article.css"as="style">
+  <link rel="stylesheet"href="../styles/article.css">
+</head>
+<body>
+  <header id="top-container"role="navigation">
+    <nav>
+  <a class="logo-link"href="/">
+    <h1>Dohyun Kwak</h1>
+    <span>Curtin University: Bachelor of IT</span>
+  </a>
+  <br>
+  <small>
+    <a id="works"class="info-link"href="/works.html">Works</a> /
+    <a id="articles"class="info-link"href="/articles.html">Articles</a>
+  </small>
+</nav>
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+<script>
+  function addDarkmodeWidget() {
+    new Darkmode().showWidget();
+  }
+  window.addEventListener('load', addDarkmodeWidget);
+</script>
+  </header>
+  <main id="main-container">
+    <article id="article-container">
+      <h1 id="article-title">
+        Operating System : File System
+      </h1>
+      
+        <h2 id="article-subtitle">
+          File and Directory Basis
+        </h2>
+      
+      <time id="article-date">
+        2024.06.01
+      </time>
+      <section id="article-content-container">
+        <details><summary>Table of Contents</summary>
+<p><div class="table-of-contents"><ul><li><a href="#file">File</a><ul><li><a href="#file-attributes">File Attributes</a></ul><li><a href="#directory-structure">Directory Structure</a><ul><li><a href="#directory-entry">Directory Entry</a></ul></ul></div><p></p>
+</details>
+<h1 id="file"tabindex="-1">File</h1>
+<p>A file is a named collection of related information that is recorded on secondary storage. From a user’s perspective, a file is the smallest allotment of logical secondary storage; that is, data cannot be written to secondary storage unless they are within a file. Commonly, files represent programs (both source and object forms) and data. Data files may be numeric, alphabetic, alphanumeric, or binary. Files may be free form, such as text files, or may be formatted rigidly. In general, a file is a sequence of bits, bytes, lines, or records, the meaning of which is defined by the file’s creator and user. The concept of a file is thus extremely general.<sup class="footnote-ref"><a href="#fn1"id="fnref1">[1]</a></sup></p>
+<h2 id="file-attributes"tabindex="-1">File Attributes</h2>
+<ol>
+<li>Name: The name of the file, which is used to identify it within the directory.
+Identifier: A unique identifier assigned to the file, often used by the system to reference it.</li>
+<li>Type: The type of the file, such as a text file, executable, or directory.</li>
+<li>Location: The address or location information indicating where the file is stored on the disk.</li>
+<li>Size: The size of the file, usually measured in bytes.</li>
+<li>Protection: The access permissions for the file, determining who can read, write, or execute it.</li>
+<li>Timestamps and User Identification: Information about when the file was created, modified, or accessed, along with the user who performed these actions.</li>
+</ol>
+<h1 id="directory-structure"tabindex="-1">Directory Structure</h1>
+<p>Tree Directory Structure is hirarchy structure and has route directory(/), and has sub directory.</p>
+<p><img src="/images/2024-06-01-18-26-15.png"alt="image"loading="lazy"decoding="async"width="960"height="720"><sup class="footnote-ref"><a href="#fn2"id="fnref2">[2]</a></sup></p>
+<p>Same file name in same directory cannot be exist, but in different directory it is available.</p>
+<h2 id="directory-entry"tabindex="-1">Directory Entry</h2>
+<p>Directories are a special form of file that contain information about other files within them. Inside a directory, data is organized in a table structure. Each entry in this table includes the names of the files and the location information of these files. This structure helps in efficiently managing and accessing the files stored within the directory.</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1"class="footnote-item"><p><a href="https://www.wiley.com/en-us/Operating+System+Concepts%2C+10th+Edition-p-9781119320913">Operating System Concepts, 10th Edition. Greg Gagne, Abraham Silberschatz, Peter B. Galvin</a> <a href="#fnref1"class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2"class="footnote-item"><p><a href="https://informationtechnologyja.wordpress.com/2020/10/19/information-technology-grade-9-lesson-2-tree-directory-structure/">Tree Structure Image</a> <a href="#fnref2"class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+      </section>
+      <section id="article-navigation">
+        
+          <div class="article-navigation-item article-navigation-next">
+            <a href="/article/4.html">
+              <div class="article-navigation-arrow article-navigation-next">＜</div>
+              <div class="article-navigation-content article-navigation-next">
+                <p class="article-navigation-title">Operating System : File System</p>
+                <p class="article-navigation-subtitle">File System</p>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="article-navigation-item article-navigation-prev">
+            <a href="/article/13.html">
+              <div class="article-navigation-arrow article-navigation-prev">＞</div>
+              <div class="article-navigation-content article-navigation-prev">
+                <p class="article-navigation-title">Operating System : Memory Management</p>
+                <p class="article-navigation-subtitle">Contiguous Memory Allocation</p>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+    </article>
+  </main>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  <script src="https://utteranc.es/client.js"repo="dodo-perth/dodo-perth.github.io"issue-term="title"theme="github-light"crossorigin="anonymous"async>
+  </script>
+  
+
+

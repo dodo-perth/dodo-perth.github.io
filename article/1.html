@@ -1,0 +1,224 @@
+<!doctypehtml>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Operating Systems - Overview</title>
+
+  <meta name="viewport"content="width=device-width,initial-scale=1">
+  <meta http-equiv="X-UA-Compatible"content="ie=edge">
+
+  <link rel="shortcut icon"href="../assets/favicon.ico"type="image/x-icon">
+  <link rel="preload"href="../styles/article.css"as="style">
+  <link rel="stylesheet"href="../styles/article.css">
+</head>
+<body>
+  <header id="top-container"role="navigation">
+    <nav>
+  <a class="logo-link"href="/">
+    <h1>Dohyun Kwak</h1>
+    <span>Curtin University: Bachelor of IT</span>
+  </a>
+  <br>
+  <small>
+    <a id="works"class="info-link"href="/works.html">Works</a> /
+    <a id="articles"class="info-link"href="/articles.html">Articles</a>
+  </small>
+</nav>
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+<script>
+  function addDarkmodeWidget() {
+    new Darkmode().showWidget();
+  }
+  window.addEventListener('load', addDarkmodeWidget);
+</script>
+  </header>
+  <main id="main-container">
+    <article id="article-container">
+      <h1 id="article-title">
+        Operating Systems - Overview
+      </h1>
+      
+        <h2 id="article-subtitle">
+          Week 1. Introduction to Operating Systems
+        </h2>
+      
+      <time id="article-date">
+        2024.06.15
+      </time>
+      <section id="article-content-container">
+        <details><summary>Table of Contents</summary>
+<p><div class="table-of-contents"><ul><li><a href="#operating-system">Operating System</a><ul><li><a href="#purposes">Purposes</a><li><a href="#computer-system-organization">Computer System Organization</a><li><a href="#interrupt-driven">Interrupt Driven</a><ul><li><a href="#how-the-cpu-works-with-interrupts">How the CPU Works with Interrupts</a><li><a href="#role-of-the-interrupt-vector-table">Role of the Interrupt Vector Table</a></ul><li><a href="#storages">Storages</a><ul><li><a href="#storage-structures">Storage Structures</a><li><a href="#von-neumann-architecture">Von Neumann Architecture</a></ul><li><a href="#i%2Fo-basic-concepts">I/O Basic Concepts</a><ul><li><a href="#host-and-controller-interactions">Host and Controller Interactions</a></ul><li><a href="#computer-system-architecture">Computer-System Architecture</a><ul><li><a href="#main-advantages-of-multiprocessor-system">Main Advantages of Multiprocessor System</a><li><a href="#types-of-multiprocessor-system">Types of Multiprocessor System</a><li><a href="#multicore-system">Multicore System</a></ul><li><a href="#cpu-scheduling">CPU Scheduling</a><ul><li><a href="#multiprogramming">Multiprogramming</a><li><a href="#time-sharing%2Fmultitasking-systems">Time-Sharing/Multitasking Systems</a><li><a href="#real-time-systems">Real-Time Systems</a></ul><li><a href="#virtualization">Virtualization</a><li><a href="#os-operation">OS Operation</a><li><a href="#system-calls">System Calls</a><li><a href="#os-structures">OS Structures</a><ul><li><a href="#monolithic%2Fsimple-structure">Monolithic/Simple Structure</a><li><a href="#layered-approch">Layered Approch</a><li><a href="#microkernel">Microkernel</a></ul></ul></ul></div><p></p>
+</details>
+<p>This article is based on the COMP2006 Operating Systems Lecture at Curtin University. It is intended for note-taking and providing a summary for other students. The actual lecture did not cover all the content from the book and may differ in other semesters. This article is from semester 1 of 2024.</p>
+<h1 id="operating-system"tabindex="-1">Operating System</h1>
+<p>There is no universally accepted definition of an operating system (OS), but we can describe an OS as a program that acts as an interface between the user and the hardware.</p>
+<h2 id="purposes"tabindex="-1">Purposes</h2>
+<ol>
+<li>To provide an environment for the user to execute programs.</li>
+<li>To simulate features not available in hardware, such as virtual memory and virtual operating systems.</li>
+<li>To control all the resources.</li>
+</ol>
+<p><img src="/images/2024-06-16-15-37-14.png"alt="image"loading="lazy"decoding="async"width="660"height="310"><sup class="footnote-ref"><a href="#fn1"id="fnref1">[1]</a></sup></p>
+<h2 id="computer-system-organization"tabindex="-1">Computer System Organization</h2>
+<p>The system bus is used for transferring all signals between the CPU and other devices (I/O devices and memory). Each device controller is responsible for a particular device type and has a local buffer.</p>
+<p>To execute a program, a computer must store it in memory along with the operating system. When powered on, the computer needs an initial program (bootstrap) to start running. This bootstrap program is stored in ROM or EEPROM, which are non-volatile storage types.</p>
+<p><img src="/images/2024-06-16-18-02-28.png"alt="image"loading="lazy"decoding="async"width="400"height="335"><sup class="footnote-ref"><a href="#fn2"id="fnref2">[2]</a></sup></p>
+<p>The kernel is the core component of an operating system that manages system resources and facilitates communication between hardware and software. It runs continuously. In Linux, the first system process is <code>init</code>, which is also called by the bootstrap program.</p>
+<p>The operating system is interrupt-driven, a significant concept for understanding further theory. Being interrupt-driven means that the operating system remains idle until an interrupt occurs from hardware or software (system call).</p>
+<h2 id="interrupt-driven"tabindex="-1">Interrupt Driven</h2>
+<h3 id="how-the-cpu-works-with-interrupts"tabindex="-1">How the CPU Works with Interrupts</h3>
+<ol>
+<li><strong>Receive Interrupt</strong>: The CPU receives an interrupt signal from hardware or software.</li>
+<li><strong>CPU Stops Current Activity</strong>: The CPU stops its current execution and saves its state.</li>
+<li><strong>Execute Interrupt Service Routine (ISR)</strong>: The CPU jumps to a predefined memory location to execute the Interrupt Service Routine (ISR), which handles the interrupt.</li>
+</ol>
+<h3 id="role-of-the-interrupt-vector-table"tabindex="-1">Role of the Interrupt Vector Table</h3>
+<p>The interrupt vector table provides the address of the appropriate Interrupt Service Routine (ISR) for each interrupt, allowing the CPU to efficiently determine and execute the correct ISR when an interrupt occurs. The interrupt vector table contains vector numbers (0-255) and descriptions. It is not necessary to memorize the table, but it is important to understand that lower numbers have higher priority.</p>
+<p>For example, if a vector number 14 (page fault) interrupt occurs and the CPU is working on its ISR, and during that process, a vector number 1 (debug exception) makes a system call, the CPU will stop the ISR for vector 14 and jump to the ISR for vector 1.</p>
+<h2 id="storages"tabindex="-1">Storages</h2>
+<h3 id="storage-structures"tabindex="-1">Storage Structures</h3>
+<p><img src="/images/2024-06-16-20-09-05.png"alt="image"loading="lazy"decoding="async"width="1184"height="1000"></p>
+<p>In this diagram, higher-level storages are more expensive and have less space.</p>
+<p><strong>Volatile Storage</strong>: Registers, cache, and main memory lose their contents when not powered.</p>
+<p><strong>Non-Volatile Storage</strong>: SSDs, magnetic disks, optical disks, and magnetic tapes keep their contents even when power is off.</p>
+<h3 id="von-neumann-architecture"tabindex="-1">Von Neumann Architecture</h3>
+<p>The CPU can execute instructions only from memory.</p>
+<h4 id="execution-cycle"tabindex="-1">Execution Cycle</h4>
+<ol>
+<li><strong>Fetch</strong>: Fetch instruction from memory &amp; store it in the instruction register.</li>
+<li><strong>Decode</strong>: Decode the instruction to determine the operation to be performed.</li>
+<li><strong>Execute</strong>: Execute the decoded instruction using the appropriate components of the CPU (ALU, registers, etc.).</li>
+<li><strong>Store</strong>: Store the result of the execution back into memory or a register.</li>
+<li><strong>Repeat</strong>.</li>
+</ol>
+<h2 id="i%2Fo-basic-concepts"tabindex="-1">I/O Basic Concepts</h2>
+<p>An I/O device communicates with a computer system by sending signals over a cable or wireless via a port.</p>
+<h3 id="host-and-controller-interactions"tabindex="-1">Host and Controller Interactions</h3>
+<p>There are three ways to communicate with an I/O controller.</p>
+<h4 id="polling"tabindex="-1">Polling</h4>
+<p>The host repeatedly reads the <code>busy</code> bit in the status register until it’s not busy. The polling method is efficient when the device and controller are fast.</p>
+<h4 id="interrupt-based-i%2Fo"tabindex="-1">Interrupt Based I/O</h4>
+<ol>
+<li>Device controller makes an interrupt to the CPU.</li>
+<li>CPU catches the interrupt and dispatches it to the interrupt service routine.</li>
+<li>Interrupt handler clears the interrupt.</li>
+</ol>
+<h4 id="direct-memory-access-(dma)"tabindex="-1">Direct Memory Access (DMA)</h4>
+<p>DMA is used to improve performance for large data transfers. By using a special-purpose processor, the CPU can do other work concurrently while data is transferring.</p>
+<p><img src="/images/2024-06-17-16-20-02.png"alt="image"loading="lazy"decoding="async"width="300"height="210"><sup class="footnote-ref"><a href="#fn3"id="fnref3">[3]</a></sup></p>
+<h2 id="computer-system-architecture"tabindex="-1">Computer-System Architecture</h2>
+<p>A single processor system (only one CPU) can execute general-purpose instructions. However, a multiprocessor system contains two or more processors working together.</p>
+<h3 id="main-advantages-of-multiprocessor-system"tabindex="-1">Main Advantages of Multiprocessor System</h3>
+<ol>
+<li><strong>Increasing throughput</strong>: Get more work done in less time.</li>
+<li><strong>Economy of scale</strong>: Multiple devices can be shared.</li>
+<li><strong>Increasing reliability</strong>: One processor failure doesn’t stop the system.</li>
+</ol>
+<h3 id="types-of-multiprocessor-system"tabindex="-1">Types of Multiprocessor System</h3>
+<ol>
+<li><strong>Asymmetric multiprocessing</strong>: One master, and multiple slaves.</li>
+<li><strong>Symmetric multiprocessing</strong>: (common) Each processor has its own registers and cache.</li>
+</ol>
+<h3 id="multicore-system"tabindex="-1">Multicore System</h3>
+<blockquote>
+<p>You should be able to explain the key difference between multicore systems.</p>
+</blockquote>
+<ul>
+<li><strong>Multicore System</strong>: A multiprocessor system on a single chip. On-chip communication is faster than inter-chip communication, so it’s efficient.</li>
+<li><strong>Blade Servers</strong>: Multiple processor boards and mostly using for server computer.</li>
+<li><strong>Clustered System</strong>: Cluster systems are created when two or more computer systems are merged. Basically, they have an independent computer but have common storage and the systems work together.</li>
+</ul>
+<p><img src="/images/2024-06-17-17-04-34.png"alt="image"loading="lazy"decoding="async"width="3000"height="1826"><sup class="footnote-ref"><a href="#fn4"id="fnref4">[4]</a></sup></p>
+<h2 id="cpu-scheduling"tabindex="-1">CPU Scheduling</h2>
+<h3 id="multiprogramming"tabindex="-1">Multiprogramming</h3>
+<p>To increase CPU utilization, we need to store several processes into memory and make the CPU multiplex among them. To achieve this, the OS needs these features: job scheduling, memory management, CPU scheduling, and I/O allocation.</p>
+<p><img src="/images/2024-06-17-19-47-39.png"alt="image"loading="lazy"decoding="async"width="301"height="341"><sup class="footnote-ref"><a href="#fn5"id="fnref5">[5]</a></sup></p>
+<h3 id="time-sharing%2Fmultitasking-systems"tabindex="-1">Time-Sharing/Multitasking Systems</h3>
+<p>To provide interactive use of a computer system at a reasonable cost, we use the time-sharing method, a variant of multiprogramming. The CPU is multiplexed among jobs in memory rapidly, allowing users to interact with their running programs. Required OS features include online communication between users and the system and an online file system for users to access data and code.</p>
+<h3 id="real-time-systems"tabindex="-1">Real-Time Systems</h3>
+<p>Real-time systems are designed to respond to input or events within a guaranteed time frame. They are used in environments where timing is crucial, such as embedded systems, medical devices, and industrial control systems.</p>
+<ul>
+<li><strong>Hard Real-Time Systems</strong>: These systems guarantee that critical tasks are completed on time and are typically implemented with specialized hardware. They are used in applications where missing a deadline could lead to catastrophic consequences, such as in medical imaging systems and industrial control systems.</li>
+<li><strong>Soft Real-Time Systems</strong>: These systems give higher priority to critical tasks but do not guarantee that deadlines will always be met. Missing a deadline in these systems does not cause catastrophic failure but may degrade performance. Examples include multimedia systems and online transaction processing systems.</li>
+</ul>
+<h2 id="virtualization"tabindex="-1">Virtualization</h2>
+<p>Virtualization technology allows an OS to run as applications on other OS. This includes VM Ware, VirtualBox.</p>
+<h2 id="os-operation"tabindex="-1">OS Operation</h2>
+<p>In multiprogramming, OS must ensure that an incorrect (or malicious) program cannot cause other programs to execute incorrectly.</p>
+<p><strong>Dual-Mode Operation</strong> : Hardware provides two modes of operations, user mode and monitor mode.</p>
+<p><code>Priviliged Instructions</code> are only executed in the monitor mode as it can harm the system since it is designed to control hardware.</p>
+<p><strong>I/O Instructions</strong> : All I/O instructions are <em>priviliged</em> instructions, and use system call.</p>
+<p><strong>Memory Protection</strong> : <code>Base Register</code> is smallest physical memory address. <code>Limit Register</code> contains size of the range.
+<img src="/images/2024-06-18-20-26-47.png"alt="image"loading="lazy"decoding="async"width="1087"height="1061"></p>
+<p><strong>CPU</strong> : CPU prevents some program use CPU all the time. The solution can be <code>timer</code>.</p>
+<h2 id="system-calls"tabindex="-1">System Calls</h2>
+<blockquote>
+<p>This is the main concepts that you need to understand on week 1 lecture.</p>
+</blockquote>
+<p>System call is a user interface to the OS services. It is known by its number, and as I mentioned before it is software generated interrupt.</p>
+<h2 id="os-structures"tabindex="-1">OS Structures</h2>
+<h3 id="monolithic%2Fsimple-structure"tabindex="-1">Monolithic/Simple Structure</h3>
+<p>No well-defined structures, it is not divided into modules, MS-DOS has some structure, its interfaces and levels of functionality are not well seperated.</p>
+<p><strong>Advantages</strong> : The most simple structure.</p>
+<p><strong>Disadvantages</strong> : Lack of modularity, security Risks.</p>
+<h3 id="layered-approch"tabindex="-1">Layered Approch</h3>
+<p>The OS is divided into a number of layers(levels).</p>
+<p><strong>Advantages</strong> : High modularity, easy to debug</p>
+<p><strong>Disadvantages</strong> : Less efficient, hard to define level functionality.</p>
+<h3 id="microkernel"tabindex="-1">Microkernel</h3>
+<p>Smaller-size kernel, only provides minimal services.</p>
+<p><strong>Advantages</strong> : Easier to extend OS, more portable, better security and reliability.</p>
+<p><strong>Disadvantages</strong> : Low performance.</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1"class="footnote-item"><p><a href="https://www.geeksforgeeks.org/introduction-of-operating-system-set-1/">Operating System Purposes Image</a> <a href="#fnref1"class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2"class="footnote-item"><p><a href="https://uselessetymology.com/2019/11/07/the-origins-of-the-phrase-pull-yourself-up-by-your-bootstraps/">Bootstrap Image</a> <a href="#fnref2"class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3"class="footnote-item"><p><a href="https://jawadsblog.wordpress.com/2009/11/21/direct-memory-access/">DMA Diagram</a> <a href="#fnref3"class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn4"class="footnote-item"><p><a href="https://en.wikipedia.org/wiki/Blade_server">Blade Server Image</a> <a href="#fnref4"class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn5"class="footnote-item"><p><a href="https://www.geeksforgeeks.org/multiprogramming-in-operating-system/">Multiprogramming Diagram</a> <a href="#fnref5"class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+      </section>
+      <section id="article-navigation">
+        
+          <div class="article-navigation-item article-navigation-next">
+            <a href="/article/15.html">
+              <div class="article-navigation-arrow article-navigation-next">＜</div>
+              <div class="article-navigation-content article-navigation-next">
+                <p class="article-navigation-title">Leetcode 167</p>
+                <p class="article-navigation-subtitle">Two Sum II - Input Array Is Sorted</p>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="article-navigation-item article-navigation-prev">
+            <a href="/article/12.html">
+              <div class="article-navigation-arrow article-navigation-prev">＞</div>
+              <div class="article-navigation-content article-navigation-prev">
+                <p class="article-navigation-title">Operating System : Memory Management</p>
+                <p class="article-navigation-subtitle">Paging with Virtual Memory</p>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+    </article>
+  </main>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  <script src="https://utteranc.es/client.js"repo="dodo-perth/dodo-perth.github.io"issue-term="title"theme="github-light"crossorigin="anonymous"async>
+  </script>
+  
+
+
