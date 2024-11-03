@@ -1,5 +1,5 @@
 ---
-id: 22
+id: 13
 title: "Operating System : Memory Management"
 subtitle: "Contiguous Memory Allocation"
 date: "2024.05.24"
