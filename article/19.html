@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Leetcode 3146</title>
+  <title>Leetcode 1672</title>
 
   <meta name="viewport"content="width=device-width,initial-scale=1">
   <meta http-equiv="X-UA-Compatible"content="ie=edge">
@@ -35,11 +35,11 @@
   <main id="main-container">
     <article id="article-container">
       <h1 id="article-title">
-        Leetcode 3146
+        Leetcode 1672
       </h1>
       
         <h2 id="article-subtitle">
-          Permutation Difference between Two Strings
+          Richest Customer Wealth
         </h2>
       
       <time id="article-date">
@@ -50,53 +50,34 @@
 <p><div class="table-of-contents"><ul><li><a href="#questions">Questions</a><li><a href="#solution">Solution</a></ul></div><p></p>
 </details>
 <h2 id="questions"tabindex="-1">Questions</h2>
-<p>You are given two strings s and t such that every character occurs at most once in s and t is a permutation of s.</p>
-<p>The permutation difference between s and t is defined as the sum of the absolute difference between the index of the occurrence of each character in s and the index of the occurrence of the same character in t.</p>
-<p>Return the permutation difference between s and t.</p>
-<p>Example 1:</p>
-<p>Input: s = “abc”, t = “bac”</p>
-<p>Output: 2</p>
-<p>Explanation:</p>
-<p>For s = “abc” and t = “bac”, the permutation difference of s and t is equal to the sum of:</p>
-<p>The absolute difference between the index of the occurrence of “a” in s and the index of the occurrence of “a” in t.
-The absolute difference between the index of the occurrence of “b” in s and the index of the occurrence of “b” in t.
-The absolute difference between the index of the occurrence of “c” in s and the index of the occurrence of “c” in t.
-That is, the permutation difference between s and t is equal to |0 - 1| + |1 - 0| + |2 - 2| = 2.</p>
-<p>Example 2:</p>
-<p>Input: s = “abcde”, t = “edbac”</p>
-<p>Output: 12</p>
-<p>Explanation: The permutation difference between s and t is equal to |0 - 3| + |1 - 2| + |2 - 4| + |3 - 1| + |4 - 0| = 12.</p>
-<p>Constraints:</p>
-<p>1 &lt;= s.length &lt;= 26
-Each character occurs at most once in s.
-t is a permutation of s.
-s consists only of lowercase English letters.</p>
+<p>You are given an m x n integer grid accounts where accounts[i][j] is the amount of money the i-th customer has in the j-th bank. Return the wealthiest customer’s wealth.</p>
+<p>A customer’s wealth is the sum of the amounts of money they have in all their bank accounts. The richest customer is the customer with the maximum wealth.</p>
 <h2 id="solution"tabindex="-1">Solution</h2>
 <pre class="hljs"><code><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span>:
-    <span class="hljs-keyword">def</span> <span class="hljs-title function_">findPermutationDifference</span>(<span class="hljs-params">self, s: <span class="hljs-built_in">str</span>, t: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">int</span>:
-        <span class="hljs-keyword">return</span> <span class="hljs-built_in">sum</span>([<span class="hljs-built_in">abs</span>(s.index(x) - t.index(x)) <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> s])
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">maximumWealth</span>(<span class="hljs-params">self, accounts: <span class="hljs-type">List</span>[<span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>]]</span>) -&gt; <span class="hljs-built_in">int</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">max</span>([<span class="hljs-built_in">sum</span>(acc) <span class="hljs-keyword">for</span> acc <span class="hljs-keyword">in</span> accounts])
 </code></pre>
 
       </section>
       <section id="article-navigation">
         
           <div class="article-navigation-item article-navigation-next">
-            <a href="/article/17.html">
+            <a href="/article/18.html">
               <div class="article-navigation-arrow article-navigation-next">＜</div>
               <div class="article-navigation-content article-navigation-next">
-                <p class="article-navigation-title">Leetcode 3163</p>
-                <p class="article-navigation-subtitle">String Compression III</p>
+                <p class="article-navigation-title">Leetcode 3146</p>
+                <p class="article-navigation-subtitle">Permutation Difference between Two Strings</p>
               </div>
             </a>
           </div>
         
         
           <div class="article-navigation-item article-navigation-prev">
-            <a href="/article/19.html">
+            <a href="/article/14.html">
               <div class="article-navigation-arrow article-navigation-prev">＞</div>
               <div class="article-navigation-content article-navigation-prev">
-                <p class="article-navigation-title">Leetcode 1672</p>
-                <p class="article-navigation-subtitle">Richest Customer Wealth</p>
+                <p class="article-navigation-title">Leetcode 796</p>
+                <p class="article-navigation-subtitle">Rotate String</p>
               </div>
             </a>
           </div>
