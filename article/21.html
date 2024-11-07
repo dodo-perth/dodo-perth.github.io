@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Regex 101 Practice Tasks - Walkthrough</title>
+  <title>Leetcode 3011</title>
 
   <meta name="viewport"content="width=device-width,initial-scale=1">
   <meta http-equiv="X-UA-Compatible"content="ie=edge">
@@ -35,44 +35,109 @@
   <main id="main-container">
     <article id="article-container">
       <h1 id="article-title">
-        Regex 101 Practice Tasks - Walkthrough
+        Leetcode 3011
       </h1>
       
         <h2 id="article-subtitle">
-          Regular Expression Practicing
+          Find if Array Can Be Sorted
         </h2>
       
       <time id="article-date">
-        2024.06.09
+        2024.11.06
       </time>
       <section id="article-content-container">
         <details><summary>Table of Contents</summary>
-<p><div class="table-of-contents"><ul><li><a href="#regex-101-task-list">Regex 101 Task List</a><ul><li><a href="#task-1.-word-boundaries">Task 1. Word Boundaries</a></ul></ul></div><p></p>
+<p><div class="table-of-contents"><ul><li><a href="#questions">Questions</a><li><a href="#solution">Solution</a></ul></div><p></p>
 </details>
-<h1 id="regex-101-task-list"tabindex="-1">Regex 101 Task List</h1>
-<h2 id="task-1.-word-boundaries"tabindex="-1">Task 1. Word Boundaries</h2>
-<p><code>Check if a string contains the word word in it (case insensitive). If you have no idea, I guess you could try /word/.</code></p>
+<h2 id="questions"tabindex="-1">Questions</h2>
+<p>You are given a 0-indexed array of positive integers nums.</p>
+<p>In one operation, you can swap any two adjacent elements if they have the same number of
+set bits
+. You are allowed to do this operation any number of times (including zero).</p>
+<p>Return true if you can sort the array, else return false.</p>
+<p>Example 1:</p>
+<p>Input: nums = [8,4,2,30,15]
+Output: true
+Explanation: Let’s look at the binary representation of every element. The numbers 2, 4, and 8 have one set bit each with binary representation “10”, “100”, and “1000” respectively. The numbers 15 and 30 have four set bits each with binary representation “1111” and “11110”.
+We can sort the array using 4 operations:</p>
+<ul>
+<li>Swap nums[0] with nums[1]. This operation is valid because 8 and 4 have one set bit each. The array becomes [4,8,2,30,15].</li>
+<li>Swap nums[1] with nums[2]. This operation is valid because 8 and 2 have one set bit each. The array becomes [4,2,8,30,15].</li>
+<li>Swap nums[0] with nums[1]. This operation is valid because 4 and 2 have one set bit each. The array becomes [2,4,8,30,15].</li>
+<li>Swap nums[3] with nums[4]. This operation is valid because 30 and 15 have four set bits each. The array becomes [2,4,8,15,30].
+The array has become sorted, hence we return true.
+Note that there may be other sequences of operations which also sort the array.
+Example 2:</li>
+</ul>
+<p>Input: nums = [1,2,3,4,5]
+Output: true
+Explanation: The array is already sorted, hence we return true.
+Example 3:</p>
+<p>Input: nums = [3,16,8,4,2]
+Output: false
+Explanation: It can be shown that it is not possible to sort the input array using any number of operations.</p>
+<p>Constraints:</p>
+<p>1 &lt;= nums.length &lt;= 100
+1 &lt;= nums[i] &lt;= 28</p>
+<h2 id="solution"tabindex="-1">Solution</h2>
+<pre class="hljs"><code><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> {
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">canSortArray</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums)</span> </span>{
+        queue&lt;pair&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span>&gt;&gt; sequence;
+        <span class="hljs-type">int</span> prev_amount = <span class="hljs-number">-1</span>;
+        <span class="hljs-type">int</span> min_val = INT_MAX, max_val = INT_MIN;
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; nums.<span class="hljs-built_in">size</span>(); i++) {
+            std::string binary = std::<span class="hljs-built_in">bitset</span>&lt;<span class="hljs-number">32</span>&gt;(nums[i]).<span class="hljs-built_in">to_string</span>();
+            <span class="hljs-type">int</span> amount = <span class="hljs-built_in">count</span>(binary.<span class="hljs-built_in">begin</span>(), binary.<span class="hljs-built_in">end</span>(), <span class="hljs-string">&#x27;1&#x27;</span>);
+
+            <span class="hljs-keyword">if</span> (amount != prev_amount &amp;&amp; prev_amount != <span class="hljs-number">-1</span>) {
+                sequence.<span class="hljs-built_in">push</span>({min_val, max_val});
+                min_val = nums[i];
+                max_val = nums[i];
+            } <span class="hljs-keyword">else</span> {
+                min_val = <span class="hljs-built_in">min</span>(min_val, nums[i]);
+                max_val = <span class="hljs-built_in">max</span>(max_val, nums[i]);
+            }
+            <span class="hljs-keyword">if</span> (!sequence.<span class="hljs-built_in">empty</span>() &amp;&amp; nums[i] &lt; sequence.<span class="hljs-built_in">back</span>().second) {
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+            }
+
+            prev_amount = amount;
+        }
+
+        sequence.<span class="hljs-built_in">push</span>({min_val, max_val});
+
+        <span class="hljs-type">int</span> prev_max = INT_MIN;
+        <span class="hljs-keyword">while</span> (!sequence.<span class="hljs-built_in">empty</span>()) {
+            <span class="hljs-keyword">auto</span> [group_min, group_max] = sequence.<span class="hljs-built_in">front</span>();
+            sequence.<span class="hljs-built_in">pop</span>();
+            <span class="hljs-keyword">if</span> (group_min &lt; prev_max) {
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+            }
+            prev_max = group_max;
+        }
+
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
+};
+</code></pre>
+<p>My approach can be not efficient because of the queue and the bit operation. I couldn’t find a better way to get a binary representation of a number.</p>
+<p>I checked the minimum and maximum value of the group, and if the current value is less than the previous maximum value, the array cannot be sorted.</p>
+<p>Then, I checked if the minimum value of the current group is less than the previous maximum value. If it is, the array cannot be sorted.</p>
+<p>For example, If there’s numbers like <code>8, 4, 2, 30, 15</code>, I seperately find minimum and maximum from <code>8, 4, 2</code> and <code>30, 15</code>. <code>8, 4, 2</code> has minimum <code>2</code> and maximum <code>8</code>, and <code>30, 15</code> has minimum <code>15</code> and maximum <code>30</code>.</p>
+<p>Then, I check if <code>2 &lt; 8</code> and <code>15 &lt; 8</code> is false, so the array can be sorted.</p>
 
       </section>
       <section id="article-navigation">
         
-          <div class="article-navigation-item article-navigation-next">
-            <a href="/article/22.html">
-              <div class="article-navigation-arrow article-navigation-next">＜</div>
-              <div class="article-navigation-content article-navigation-next">
-                <p class="article-navigation-title">Unix System Programming</p>
-                <p class="article-navigation-subtitle">Week 10. Unix System Administration</p>
-              </div>
-            </a>
-          </div>
-        
         
           <div class="article-navigation-item article-navigation-prev">
-            <a href="/article/5.html">
+            <a href="/article/20.html">
               <div class="article-navigation-arrow article-navigation-prev">＞</div>
               <div class="article-navigation-content article-navigation-prev">
-                <p class="article-navigation-title">9. Operating System : Mass Storage and I/O</p>
-                <p class="article-navigation-subtitle">How OS manages storage</p>
+                <p class="article-navigation-title">Leetcode 11</p>
+                <p class="article-navigation-subtitle">Container With Most Water</p>
               </div>
             </a>
           </div>
