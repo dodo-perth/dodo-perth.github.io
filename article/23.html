@@ -1,0 +1,131 @@
+<!doctypehtml>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Leetcode 1829</title>
+
+  <meta name="viewport"content="width=device-width,initial-scale=1">
+  <meta http-equiv="X-UA-Compatible"content="ie=edge">
+
+  <link rel="shortcut icon"href="../assets/favicon.ico"type="image/x-icon">
+  <link rel="preload"href="../styles/article.css"as="style">
+  <link rel="stylesheet"href="../styles/article.css">
+</head>
+<body>
+  <header id="top-container"role="navigation">
+    <nav>
+  <a class="logo-link"href="/">
+    <h1>Dohyun Kwak</h1>
+    <span>Curtin University: Bachelor of IT</span>
+  </a>
+  <br>
+  <small>
+    <a id="works"class="info-link"href="/works.html">Works</a> /
+    <a id="articles"class="info-link"href="/articles.html">Articles</a>
+  </small>
+</nav>
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+<script>
+  function addDarkmodeWidget() {
+    new Darkmode().showWidget();
+  }
+  window.addEventListener('load', addDarkmodeWidget);
+</script>
+  </header>
+  <main id="main-container">
+    <article id="article-container">
+      <h1 id="article-title">
+        Leetcode 1829
+      </h1>
+      
+        <h2 id="article-subtitle">
+          Maximum XOR for Each Query
+        </h2>
+      
+      <time id="article-date">
+        2024.11.08
+      </time>
+      <section id="article-content-container">
+        <details><summary>Table of Contents</summary>
+<p><div class="table-of-contents"><ul><li><a href="#questions">Questions</a><li><a href="#my-approaches">My Approaches</a></ul></div><p></p>
+</details>
+<h2 id="questions"tabindex="-1">Questions</h2>
+<p>You are given a <strong>sorted</strong> array <code>nums</code> of <code>n</code> non-negative integers and an integer <code>maximumBit</code>. You want to perform the following query <code>n</code> <strong>times</strong>:</p>
+<ol>
+<li>Find a non-negative integer <code>k &lt; 2maximumBit</code> such that <code>nums[0] XOR nums[1] XOR ... XOR nums[nums.length-1] XOR k</code> is <strong>maximized</strong>. <code>k</code> is the answer to the <code>ith</code> query.</li>
+<li>Remove the <strong>last</strong> element from the current array <code>nums</code>.</li>
+</ol>
+<p>Return <em>an array</em> <code>answer</code><em>, where</em> <code>answer[i]</code> <em>is the answer to the</em> <code>ith</code> <em>query</em>.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong> nums = [0,1,1,3], maximumBit = 2
+<strong>Output:</strong> [0,3,2,3]
+<strong>Explanation</strong>: The queries are answered as follows:
+1st query: nums = [0,1,1,3], k = 0 since 0 XOR 1 XOR 1 XOR 3 XOR 0 = 3.
+2nd query: nums = [0,1,1], k = 3 since 0 XOR 1 XOR 1 XOR 3 = 3.
+3rd query: nums = [0,1], k = 2 since 0 XOR 1 XOR 2 = 3.
+4th query: nums = [0], k = 3 since 0 XOR 3 = 3.</p>
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong> nums = [2,3,4,7], maximumBit = 3
+<strong>Output:</strong> [5,2,6,5]
+<strong>Explanation</strong>: The queries are answered as follows:
+1st query: nums = [2,3,4,7], k = 5 since 2 XOR 3 XOR 4 XOR 7 XOR 5 = 7.
+2nd query: nums = [2,3,4], k = 2 since 2 XOR 3 XOR 4 XOR 2 = 7.
+3rd query: nums = [2,3], k = 6 since 2 XOR 3 XOR 6 = 7.
+4th query: nums = [2], k = 5 since 2 XOR 5 = 7.</p>
+<p><strong>Example 3:</strong></p>
+<p><strong>Input:</strong> nums = [0,1,2,2,5,7], maximumBit = 3
+<strong>Output:</strong> [4,3,6,4,6,7]</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>nums.length == n</code></li>
+<li><code>1 &lt;= n &lt;= 105</code></li>
+<li><code>1 &lt;= maximumBit &lt;= 20</code></li>
+<li><code>0 &lt;= nums[i] &lt; 2maximumBit</code></li>
+<li><code>nums</code>​​​ is sorted in <strong>ascending</strong> order.</li>
+</ul>
+<h2 id="my-approaches"tabindex="-1">My Approaches</h2>
+<pre class="hljs"><code><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> {
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">getMaximumXor</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums, <span class="hljs-type">int</span> maximumBit)</span> </span>{
+        <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">xored</span><span class="hljs-params">(<span class="hljs-number">0</span>)</span></span>;
+        vector&lt;<span class="hljs-type">int</span>&gt; ans;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> k: nums){
+            xored = xored ^ k;
+            <span class="hljs-type">int</span> elem = ~xored;
+            ans.<span class="hljs-built_in">insert</span>(ans.<span class="hljs-built_in">begin</span>(), elem+(<span class="hljs-built_in">pow</span>(<span class="hljs-number">2</span>, maximumBit)));
+        }
+        <span class="hljs-keyword">return</span> ans;
+    }
+};
+</code></pre>
+<p>I tried not to change integer to binary representation. I used bitwise operation to get the maximum XOR value. Variable <code>xored</code> is the result of XOR operation of all elements in the array. Then I did XOR operation for each element in the array, and <code>elem</code> is the reverse of <code>xored</code>.</p>
+<p>Then, I added <code>elem</code> to the beginning of the <code>ans</code> array.</p>
+<p>This approach is not efficient because of the time complexity of the <code>insert</code> operation.</p>
+
+      </section>
+      <section id="article-navigation">
+        
+        
+          <div class="article-navigation-item article-navigation-prev">
+            <a href="/article/23.html">
+              <div class="article-navigation-arrow article-navigation-prev">＞</div>
+              <div class="article-navigation-content article-navigation-prev">
+                <p class="article-navigation-title">Leetcode 238</p>
+                <p class="article-navigation-subtitle">Product of Array Except Self</p>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+    </article>
+  </main>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  <script src="https://utteranc.es/client.js"repo="dodo-perth/dodo-perth.github.io"issue-term="title"theme="github-light"crossorigin="anonymous"async>
+  </script>
+  
+
+
